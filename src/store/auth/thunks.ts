@@ -15,8 +15,7 @@ export const startGoogleSignIn = () => {
     return async (dispatch: Dispatch): Promise<void> => {
         dispatch(checkingCredencials());
         const result = await singInWithGoogle();
-        // console.log(typeof dispatch( logout(result.errorMessage) ))
-        console.log(typeof logout(result.errorMessage))
+        // console.log({result})
         if (!result.ok) {
             return dispatch(logout(result.errorMessage));
         }
@@ -30,23 +29,26 @@ export const startCreatingUserWithEmailPassword = ({ email, password, displayNam
         dispatch(checkingCredencials());
 
         const { ok, uid, photoURL, errorMessage } = await registerUserWithEmailPassword({ email, password, displayName });
+        console.log({ ok, uid, photoURL, errorMessage })
+        if (!ok) {
+            return dispatch(logout({ errorMessage }))
+        }
 
-        if (!ok) return dispatch(logout({ errorMessage }))
-
-        dispatch(login({ uid, displayName, email, photoURL }));
+        dispatch(login({ ok, uid, displayName, email, photoURL }));
     }
 }
 
 export const startLoginUserWithEmailPassword = ({ email, password }: authForms) => {
     return async (dispatch: Dispatch) => {
         dispatch(checkingCredencials());
+        
         const { ok, uid, displayName, photoURL, errorMessage } = await loginWithEmailAndPassword({ email, password });
-
+        
         if (!ok) {
             return dispatch(logout({ errorMessage }));
         }
 
-        dispatch(login({ uid, displayName, email, photoURL }));
+        dispatch(login({ok, uid, displayName, email, photoURL }));
     }
 }
 

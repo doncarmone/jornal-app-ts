@@ -1,10 +1,16 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { fileUpload } from '../../src/helpers/fileUpload';
+import { getEnvironments } from "../../src/helpers";
 
+const {
+    VITE_CLOUD_NAME,
+    VITE_API_KEY,
+    VITE_API_SECRET
+} = getEnvironments();
 cloudinary.config({
-    cloud_name: 'dfaxfcvhh',
-    api_key: '832124746656838',
-    api_secret: 'tsJmLW_p06L2A6Io2kwMeGg6yNI',
+    cloud_name: VITE_CLOUD_NAME,
+    api_key: VITE_API_KEY,
+    api_secret: VITE_API_SECRET,
     secure: true
 })
 
@@ -18,8 +24,8 @@ describe('Pruebas en fileupload', () => {
         expect(typeof url).toBe('string');
 
         const segments = url.split('/');
-        const imageId = segments[segments.length -1].replace('.png','')
-        await cloudinary.api.delete_resources(['journal-app/'+imageId],{
+        const imageId = segments[segments.length - 1].replace('.png', '')
+        await cloudinary.api.delete_resources(['journal-app/' + imageId], {
             resource_type: 'image'
         })
     })

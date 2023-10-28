@@ -43,22 +43,22 @@ export const LoginPage = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(startLoginUserWithEmailPassword({ email, password }));
     console.log({ email, password });
+    dispatch(startLoginUserWithEmailPassword({ email, password }));
   };
 
   const isAuthenticating = useMemo(() => status === 'checking', [status]);
 
   const onGoogleSignIn = () => {
-    dispatch(startGoogleSignIn());
     console.log('google');
+    dispatch(startGoogleSignIn());
   };
 
   const onEmailAndPasswordSignIn = () => {};
 
   return (
     <Authlayout title='Login'>
-      <form onSubmit={onSubmit} className='animate__animated animate__fadeIn animate__faster'>
+      <form aria-label="submit-form" onSubmit={onSubmit} className='animate__animated animate__fadeIn animate__faster'>
         <Grid container>
           <Grid item xs={12} sx={{ marginTop: 2 }}>
             <TextField
@@ -77,6 +77,9 @@ export const LoginPage = () => {
               type='password'
               fullWidth
               name='password'
+              inputProps={{
+                'data-testid': 'password'
+              }}
               value={password}
               onChange={onChange}
             />
@@ -107,6 +110,8 @@ export const LoginPage = () => {
                 disabled={isAuthenticating}
                 variant='contained'
                 onClick={onGoogleSignIn}
+                date-testid="google-btn"
+                aria-label="google-btn"
                 fullWidth
               >
                 <Google /> <Typography sx={{ ml: 1 }}>Google</Typography>

@@ -51,5 +51,11 @@ export interface AuthState {
     displayName?: string | null
     photoURL?: string | null
     errorMessage?: string | null
+}
 
+export interface User {
+    uid?: string | null
+    email?: string | null
+    displayName?: string | null
+    photoURL?: string | null
 }
